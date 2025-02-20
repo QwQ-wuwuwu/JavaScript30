@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Variables</title>
+</head>
+<body>
+    <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+    <div class="controls">
+        <label for="spacing">Spacing:</label>
+        <input type="range" name="spacing" min="0" max="200" value="20" data-sizing="px">
+
+        <label for="blur">Blur:</label>
+        <input type="range" name="blur" min="0" max="25" value="0" data-sizing="px">
+
+        <label for="base">Base Color</label>
+        <input type="color" name="base" value="#8aa8af">
+    </div>
+    <p>
+        img { 
+            padding: <span id="spacing">0px</span>; 
+            filter: blur(<span id="blur">0px</span>); 
+            background: <span id="base">#8aa8af</span> 
+        }
+    </p>
+    <img src="./Page404.gif" alt="error">
+
+    <style>
+        :root {
+            --spacing: 20px;
+            --blur: 0px;
+            --base: #8aa8af;
+        }
+        body {
+            text-align: center;
+            background: #193549;
+            color: white;
+            font-family: 'helvetica neue', sans-serif;
+            font-weight: 100;
+            font-size: 30px;
+        }
+        .controls {
+            margin-bottom: 50px;
+        }
+        input {
+            width:100px;
+        }
+        img {
+            width: 600px;
+            height: auto;
+            padding: var(--spacing);
+            filter: blur(var(--blur));
+            background-color: var(--base);
+        }
+        .hl {
+            color: var(--base);
+        }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll('.controls input');
+        const handleUpdate = (e) => {
+            const suffix = e.target.dataset.sizing || '';
+            const value = `${e.target.value}${suffix}`;
+            const root = document.querySelector(':root');
+            // const rootStyle = getComputedStyle(root);  // 获取css变量值
+
+            const changeName = `--${e.target.name}`;
+            root.style.setProperty(changeName, value); // 改变属性值
+
+            const obj = document.querySelector(`#${e.target.name}`);
+            obj.textContent = value; // 设置展示内容
+        }
+        inputs.forEach(input => input.addEventListener('change', handleUpdate));
+        inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+    </script>
+</body>
+</html>
