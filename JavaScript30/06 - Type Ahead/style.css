@@ -1,0 +1,88 @@
+html {
+    box-sizing: border-box;
+    background:hsla(193, 30%, 64%, 0.78);
+    font-family: 'Kaiti', 'SimHei', 'Hiragino Sans GB ', 'helvetica neue';
+    font-size: 20px;
+    font-weight: 200;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    width:700px;
+    margin:50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    width: 120%;
+    /* 聚焦时将会去除边框 */
+    outline: 0;
+    padding:20px;
+    margin: -2px;
+    font-family:'Kaiti', 'helvetica neue';
+    font-size: 40px;
+    text-align: center;
+    border: 10px solid #F7F7F7;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
+}
+
+.suggestion {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.suggestion li {
+    list-style: none;
+    background-color: white;
+    border-bottom: 1px solid #D8D8D8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+    margin: 0;
+    padding: 30px;
+    text-align: center;
+    width: 750px;
+    position: relative;
+}
+
+/* 偶数行 */
+.suggestion li:nth-child(even) {
+    /* perspective设置视距，增加3d效果 */
+    transform: perspective(100px) rotateX(2deg) translateY(2px) scale(1.001);
+    /* 线性渐变 */
+    background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
+  }
+
+/* 奇数行 */
+.suggestion li:nth-child(odd) {
+    transform: perspective(100px) rotateX(-2deg) translateY(3.5px);
+    background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
+}
+
+.suggestion li p {
+    margin: 0;
+    padding: 0;
+}
+
+.hl {
+    background:hsla(193, 37%, 64%, 0.65);
+}
+
+.suggestion li p:last-child {
+    font-size: 16px;
+    color: #7c8e94;
+    margin-top: 10px;
+    position: absolute;
+    right: 7px;
+    bottom: 8px;
+}

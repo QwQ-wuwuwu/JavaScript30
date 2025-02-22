@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Type Ahead 👀</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="search-form">
+        <input type="text" class="search" placeholder="诗句 诗名 诗人">
+        <ul class="suggestion">
+            <li>输入词句，找一首诗</li>
+            <li></li>
+        </ul>
+    </div>
+
+    <script>
+        const endpoint = 'https://gist.githubusercontent.com/soyaine/81399bb2b24ca1bb5313e1985533c640/raw/bdf7df2cbcf70706c4a5e51a7dfb8c933ed78878/TangPoetry.json';
+
+        const poetrys = [];
+        fetch(endpoint).then(blob => blob.json()).then(data => poetrys.push(...data));
+
+        const handleChange = (e) => {
+            const keyword = e.target.value;
+            let suggestionHTMLs = `
+                <li>输入词句，找一首诗</li>
+                <li></li>
+            `;
+            if(!keyword) {
+                suggestion.innerHTML = suggestionHTMLs;
+                return
+            }
+            const filterPoetorys = poetrys.filter(
+                poetory => poetory.detail_text.includes(keyword) ||
+                           poetory.title.includes(keyword) ||
+                           poetory.detail_author.join('').includes(keyword)
+            )
+            suggestionHTMLs = filterPoetorys.map(p => {
+                const text = p.detail_text.replace(keyword, `<span class="hl">${keyword}</span>`); // 诗句关键字高亮
+                const title = p.title.replace(keyword, `<span class="hl">${keyword}</span>`); // 诗名关键字高亮
+                return `<li>
+                    <p>${text}</p>
+                    <p>${title} - ${p.detail_author[0]}</p>
+                </li>`
+            });
+            suggestion.innerHTML = suggestionHTMLs.join('');
+        }
+
+        const suggestion = document.querySelector('.suggestion');
+        const searchInput = document.querySelector('.search');
+        searchInput.addEventListener('input', handleChange);
+    </script>
+</body>
+</html>
